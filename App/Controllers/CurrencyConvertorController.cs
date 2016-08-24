@@ -1,17 +1,8 @@
-﻿using App.BLL;
-using App.ViewModels;
-using System;
-using System.Diagnostics;
-using System.Web.Mvc;
-using System.Xml;
-
+﻿using System.Diagnostics;
 
 namespace App.Controllers
 {
-    /// <summary>
-    /// Controller class that interacs with Business and View
-    /// </summary>
-    public class CurrencyConvertorController : Controller
+    public class CurrencyConvertorController : AsyncController
     {
         #region Instances
         /// <summary>
@@ -39,26 +30,23 @@ namespace App.Controllers
              currency_Bll = new CurrencyBusiness();
         }
         #endregion
-
-        #region Methods
-        /// <summary>
-        /// Invoques a methods from Business layers and brings
-        /// </summary>
-        /// <returns>a Value and a Date</returns>
+        
+        // GET: CurrencyConvertor
         public ActionResult Index()
         {
+
             stopWatch.Start();
-            XmlNodeList nodes = currency_Bll.getCurrency();
-            
-            foreach (XmlElement node in nodes)
-            {
-                currency.value = Convert.ToSingle(node.GetAttribute("OBS_VALUE"));
-                currency.date = node.GetAttribute("TIME_PERIOD");
-            }
+
+            string[] currency_array = new string[1];
+            CurrencyViewModel currency = new CurrencyViewModel();
+            currency_Bll = new CurrencyBusiness();
+
+            currency_array = currency_Bll.getCurrency();
+            currency.value = Convert.ToSingle(currency_array[0]);
+            currency.date = currency_array[1];
             stopWatch.Stop();
 
             return View(currency);
         }
-        #endregion
     }
 }
