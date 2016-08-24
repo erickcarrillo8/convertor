@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Xml;
-using System.Threading;
-
 
 namespace App.BLL
 {
@@ -11,9 +9,20 @@ namespace App.BLL
     /// </summary>
     public class CurrencyBusiness
     {
-        Stopwatch stopWatch = new Stopwatch();
-        
+        #region Instances
+        //StopWatch declaration
+        Stopwatch stopWatch;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initialices instances
+        /// </summary>
+        public CurrencyBusiness()
+        {
+             stopWatch = new Stopwatch();
+        }
+        #endregion
 
         #region Methods
         /// <summary>
@@ -28,7 +37,6 @@ namespace App.BLL
             var result = banxico.tiposDeCambioBanxico();
             XmlDocument document = new XmlDocument();
             document.LoadXml(result);
-            Console.Write(result);
 
             XmlNodeList ser = document.GetElementsByTagName("bm:DataSet");
             XmlNodeList lista = ((XmlElement)ser[0]).GetElementsByTagName("bm:Series");
@@ -38,7 +46,6 @@ namespace App.BLL
             TimeSpan ts = stopWatch.Elapsed;
 
             return nodes;
-
         }
         #endregion
     }
