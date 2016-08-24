@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿using App.BLL;
+using App.ViewModels;
+using System;
+using System.Diagnostics;
+using System.Web.Mvc;
 
 namespace App.Controllers
 {
@@ -36,7 +40,6 @@ namespace App.Controllers
         {
 
             stopWatch.Start();
-
             string[] currency_array = new string[1];
             CurrencyViewModel currency = new CurrencyViewModel();
             currency_Bll = new CurrencyBusiness();
@@ -45,6 +48,9 @@ namespace App.Controllers
             currency.value = Convert.ToSingle(currency_array[0]);
             currency.date = currency_array[1];
             stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+
+            ViewBag.ts = ts;
 
             return View(currency);
         }

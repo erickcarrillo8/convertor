@@ -44,10 +44,9 @@ namespace App.BLL
             XmlDocument document = new XmlDocument();
             document.LoadXml(result);
 
-            XmlNodeList nodes = ((XmlElement)lista[0]).GetElementsByTagName("bm:Obs");
-            
-            return nodes;
-            XmlNodeList list = ((XmlElement)ser[0]).GetElementsByTagName("bm:Series");
+            XmlNodeList dataSet = document.GetElementsByTagName("bm:DataSet");
+
+            XmlNodeList list = ((XmlElement)dataSet[0]).GetElementsByTagName("bm:Series");
             XmlNodeList nodes = ((XmlElement)list[0]).GetElementsByTagName("bm:Obs");
            
             foreach (XmlElement node in nodes)

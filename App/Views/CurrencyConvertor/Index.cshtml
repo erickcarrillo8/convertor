@@ -7,6 +7,15 @@
 
 <div class="row">
     <div class="col-lg-4">
-        Tipo de Cambio:  <strong>@Model.value</strong>
+        <div class="col-xs-4 br">
+            <h3 class="m0">@Html.DisplayFor(model => model.value)</h3>
+            <p class="m0">
+                <span class="hidden-xs">Valor</span>
+            </p>
+        </div>
+        <div class="col-xs-4">
+            <h3 class="m0">@ViewBag.ts</h3>
+            <p>Tiempo de respuesta</p>
+        </div>
     </div>
 </div>
