@@ -1,17 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using App.DAL;
 
 namespace App.BLL
 {
-   public class CurrencyBusiness
+    /// <summary>
+    /// Interacs with entities class and consumes Banxico web service
+    /// </summary>
+    public class CurrencyBusiness
     {
-        public  string[] getCurrency()
+
+
+
+        #region Methods
+        /// <summary>
+        /// This method comsumes a Banxico WS brings an XML file and Serializes the File
+        /// </summary>
+        /// <returns>a node with the currency value</returns>
+
+        public string[] getCurrency()
         {
+
             BanxicoService.DgieWSPortClient banxico = new BanxicoService.DgieWSPortClient();
             string[] data = new string[2];
 
@@ -19,6 +27,7 @@ namespace App.BLL
             XmlDocument document = new XmlDocument();
             document.LoadXml(result);
             XmlNodeList ser = document.GetElementsByTagName("bm:DataSet");
+
             XmlNodeList list = ((XmlElement)ser[0]).GetElementsByTagName("bm:Series");
             XmlNodeList nodes = ((XmlElement)list[0]).GetElementsByTagName("bm:Obs");
            
@@ -30,6 +39,11 @@ namespace App.BLL
 
             return data;
         }
+
+   
+           
+     
+        #endregion
 
     }
 }
