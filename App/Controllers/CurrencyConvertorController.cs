@@ -1,6 +1,7 @@
 ﻿using App.BLL;
 using App.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 using System.Xml;
 
@@ -21,6 +22,10 @@ namespace App.Controllers
         /// Currency Business Object declaration
         /// </summary>
         CurrencyBusiness currency_Bll;
+        /// <summary>
+        /// StopWatch declaration
+        /// </summary>
+        Stopwatch stopWatch;
         #endregion
 
         #region Constructor
@@ -29,6 +34,7 @@ namespace App.Controllers
         /// </summary>
         public CurrencyConvertorController()
         {
+             stopWatch = new Stopwatch();
              currency = new CurrencyViewModel();
              currency_Bll = new CurrencyBusiness();
         }
@@ -41,14 +47,15 @@ namespace App.Controllers
         /// <returns>a Value and a Date</returns>
         public ActionResult Index()
         {
-              
+            stopWatch.Start();
             XmlNodeList nodes = currency_Bll.getCurrency();
             
             foreach (XmlElement node in nodes)
             {
                 currency.value = Convert.ToSingle(node.GetAttribute("OBS_VALUE"));
                 currency.date = node.GetAttribute("TIME_PERIOD");
-            }                       
+            }
+            stopWatch.Stop();
 
             return View(currency);
         }

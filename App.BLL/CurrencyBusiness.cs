@@ -10,7 +10,9 @@ namespace App.BLL
     public class CurrencyBusiness
     {
         #region Instances
-        //StopWatch declaration
+        /// <summary>
+        /// StopWatch declaration
+        /// </summary>
         Stopwatch stopWatch;
         #endregion
 
