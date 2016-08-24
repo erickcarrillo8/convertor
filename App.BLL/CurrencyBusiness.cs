@@ -10,30 +10,26 @@ namespace App.BLL
 {
    public class CurrencyBusiness
     {
-        public  XmlNodeList getCurrency()
+        public  string[] getCurrency()
         {
-
-             
-
-            
             BanxicoService.DgieWSPortClient banxico = new BanxicoService.DgieWSPortClient();
+            string[] data = new string[2];
 
             var result = banxico.tiposDeCambioBanxico();
             XmlDocument document = new XmlDocument();
             document.LoadXml(result);
-            Console.Write(result);
-
             XmlNodeList ser = document.GetElementsByTagName("bm:DataSet");
-            XmlNodeList lista = ((XmlElement)ser[0]).GetElementsByTagName("bm:Series");
+            XmlNodeList list = ((XmlElement)ser[0]).GetElementsByTagName("bm:Series");
+            XmlNodeList nodes = ((XmlElement)list[0]).GetElementsByTagName("bm:Obs");
+           
+            foreach (XmlElement node in nodes)
+            {
+                data[0] = node.GetAttribute("OBS_VALUE");
+                data[1] = node.GetAttribute("TIME_PERIOD");
+            }
 
-            XmlNodeList nodes = ((XmlElement)lista[0]).GetElementsByTagName("bm:Obs");
-
-            
-
-            return nodes;
-            
-            
-
+            return data;
         }
+
     }
 }

@@ -3,34 +3,34 @@ using App.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 
 namespace App.Controllers
 {
-    public class CurrencyConvertorController : Controller
-    {   
+    public class CurrencyConvertorController : AsyncController
+    {
+        private CurrencyBusiness currency_Bll;
         
+
 
         // GET: CurrencyConvertor
         public ActionResult Index()
         {
-      
-           
+            string[] currency_array = new string[1];
             CurrencyViewModel currency = new CurrencyViewModel();
-            CurrencyBusiness currency_Bll = new CurrencyBusiness();
-            XmlNodeList nodes = currency_Bll.getCurrency();
-            
-            foreach (XmlElement node in nodes)
-            {
-                currency.value = Convert.ToSingle(node.GetAttribute("OBS_VALUE"));
-                currency.date = node.GetAttribute("TIME_PERIOD");
-            }
-                        
+            currency_Bll = new CurrencyBusiness();
+
+            currency_array = currency_Bll.getCurrency();
+            currency.value = Convert.ToSingle(currency_array[0]);
+            currency.date = currency_array[1];
 
             return View(currency);
         }
+
+         
+
     }
 }
