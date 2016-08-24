@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Xml;
+using System.Threading;
+
 
 namespace App.BLL
 {
@@ -8,6 +11,10 @@ namespace App.BLL
     /// </summary>
     public class CurrencyBusiness
     {
+        Stopwatch stopWatch = new Stopwatch();
+        
+
+
         #region Methods
         /// <summary>
         /// This method comsumes a Banxico WS brings an XML file and Serializes the File
@@ -15,7 +22,7 @@ namespace App.BLL
         /// <returns>a node with the currency value</returns>
         public XmlNodeList getCurrency()
         {
-                  
+            stopWatch.Start();
             BanxicoService.DgieWSPortClient banxico = new BanxicoService.DgieWSPortClient();
 
             var result = banxico.tiposDeCambioBanxico();
@@ -27,9 +34,11 @@ namespace App.BLL
             XmlNodeList lista = ((XmlElement)ser[0]).GetElementsByTagName("bm:Series");
 
             XmlNodeList nodes = ((XmlElement)lista[0]).GetElementsByTagName("bm:Obs");
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
 
-            return nodes;         
-           
+            return nodes;
+
         }
         #endregion
     }
