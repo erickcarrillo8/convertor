@@ -13,7 +13,7 @@ namespace App.BLL
         /// <summary>
         /// StopWatch declaration
         /// </summary>
-        Stopwatch stopWatch;
+        Stopwatch _stopWatch;
         #endregion
 
         #region Constructor
@@ -22,20 +22,18 @@ namespace App.BLL
         /// </summary>
         public CurrencyBusiness()
         {
-             stopWatch = new Stopwatch();
+             _stopWatch = new Stopwatch();
         }
         #endregion
-
 
         #region Methods
         /// <summary>
         /// This method comsumes a Banxico WS brings an XML file and Serializes the File
         /// </summary>
         /// <returns>a node with the currency value</returns>
-
         public string[] getCurrency()
         {
-            stopWatch.Start();
+            _stopWatch.Start();
 
             BanxicoService.DgieWSPortClient banxico = new BanxicoService.DgieWSPortClient();
             string[] data = new string[2];
@@ -54,12 +52,10 @@ namespace App.BLL
                 data[0] = node.GetAttribute("OBS_VALUE");
                 data[1] = node.GetAttribute("TIME_PERIOD");
             }
-            stopWatch.Stop();
-            TimeSpan ts = stopWatch.Elapsed;
+            _stopWatch.Stop();
+            TimeSpan timeSpan = _stopWatch.Elapsed;
             return data;
-        }           
-     
+        }                
         #endregion
-
     }
 }

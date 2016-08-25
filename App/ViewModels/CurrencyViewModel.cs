@@ -9,11 +9,11 @@
         /// <summary>
         /// Date of currency value, individually
         /// </summary>
-        public string date { get; set;  }
+        public string Date { get; set;  }
         /// <summary>
         /// Currency value in pesos
         /// </summary>
-        public float value { get; set;  }
+        public float Value { get; set;  }
         #endregion
 
     }

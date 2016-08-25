@@ -12,15 +12,15 @@ namespace App.Controllers
         /// <summary>
         /// View Currency View Model Declaration
         /// </summary>
-        CurrencyViewModel currency;
+        CurrencyViewModel _currency;
         /// <summary>
         /// Currency Business Object declaration
         /// </summary>
-        CurrencyBusiness currency_Bll;
+        CurrencyBusiness _currencyBll;
         /// <summary>
         /// StopWatch declaration
         /// </summary>
-        Stopwatch stopWatch;
+        Stopwatch _stopWatch;
         #endregion
 
         #region Constructor
@@ -29,30 +29,33 @@ namespace App.Controllers
         /// </summary>
         public CurrencyConvertorController()
         {
-             stopWatch = new Stopwatch();
-             currency = new CurrencyViewModel();
-             currency_Bll = new CurrencyBusiness();
+             _stopWatch = new Stopwatch();
+             _currency = new CurrencyViewModel();
+             _currencyBll = new CurrencyBusiness();
         }
         #endregion
-        
-        // GET: CurrencyConvertor
+
+        #region Methods
+        /// <summary>
+        /// Brings an array from bussines and asigns it to an object
+        /// Sends it to the view
+        /// </summary>
+        /// <returns>Returns a currency object</returns>
         public ActionResult Index()
         {
+            _stopWatch.Start();
+            string[] currencyArray = new string[1];
 
-            stopWatch.Start();
-            string[] currency_array = new string[1];
-            CurrencyViewModel currency = new CurrencyViewModel();
-            currency_Bll = new CurrencyBusiness();
+            currencyArray = _currencyBll.getCurrency();
+            _currency.Value = Convert.ToSingle(currencyArray[0]);
+            _currency.Date = currencyArray[1];
+            _stopWatch.Stop();
+            TimeSpan timeSpan = _stopWatch.Elapsed;
 
-            currency_array = currency_Bll.getCurrency();
-            currency.value = Convert.ToSingle(currency_array[0]);
-            currency.date = currency_array[1];
-            stopWatch.Stop();
-            TimeSpan ts = stopWatch.Elapsed;
+            ViewBag.timeSpan = timeSpan;
 
-            ViewBag.ts = ts;
-
-            return View(currency);
+            return View(_currency);
         }
+        #endregion
     }
 }
