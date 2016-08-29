@@ -1,5 +1,5 @@
 ﻿using App.BLL;
-using App.ViewModels;
+using App.Banxico;
 using System;
 using System.Diagnostics;
 using System.Web.Mvc;
@@ -10,9 +10,9 @@ namespace App.Controllers
     {
         #region Instances
         /// <summary>
-        /// View Currency View Model Declaration
+        /// Currency Service  Declaration
         /// </summary>
-        CurrencyViewModel _currency;
+        CurrencyService _currency;
         /// <summary>
         /// Currency Business Object declaration
         /// </summary>
@@ -30,7 +30,7 @@ namespace App.Controllers
         public CurrencyConvertorController()
         {
              _stopWatch = new Stopwatch();
-             _currency = new CurrencyViewModel();
+             
              _currencyBll = new CurrencyBusiness();
         }
         #endregion
@@ -44,14 +44,10 @@ namespace App.Controllers
         public ActionResult Index()
         {
             _stopWatch.Start();
-            string[] currencyArray = new string[1];
-
-            currencyArray = _currencyBll.getCurrency();
-            _currency.Value = Convert.ToSingle(currencyArray[0]);
-            _currency.Date = currencyArray[1];
+            CurrencyService _currency = new CurrencyService();
+            _currency = _currencyBll.getCurrency();
             _stopWatch.Stop();
             TimeSpan timeSpan = _stopWatch.Elapsed;
-
             ViewBag.timeSpan = timeSpan;
 
             return View(_currency);

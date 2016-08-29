@@ -227,6 +227,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\App.Banxico\App.Banxico.csproj">
+      <Project>{a913ecec-580d-47be-97e4-374d4a3c3143}</Project>
+      <Name>App.Banxico</Name>
+    </ProjectReference>
     <ProjectReference Include="..\App.BLL\App.BLL.csproj">
       <Project>{1bb3c48e-7ef6-4786-99f9-90902da058d5}</Project>
       <Name>App.BLL</Name>

@@ -55,6 +55,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\App.Banxico\App.Banxico.csproj">
+      <Project>{a913ecec-580d-47be-97e4-374d4a3c3143}</Project>
+      <Name>App.Banxico</Name>
+    </ProjectReference>
     <ProjectReference Include="..\App.Common\App.Common.csproj">
       <Project>{4f172542-6be4-4273-bf30-e03f7d7c33dc}</Project>
       <Name>App.Common</Name>

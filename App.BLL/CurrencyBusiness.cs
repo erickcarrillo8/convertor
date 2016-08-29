@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Banxico;
+using System;
 using System.Diagnostics;
 using System.Xml;
 
@@ -31,12 +32,12 @@ namespace App.BLL
         /// This method comsumes a Banxico WS brings an XML file and Serializes the File
         /// </summary>
         /// <returns>a node with the currency value</returns>
-        public string[] getCurrency()
+        public  CurrencyService getCurrency()
         {
             _stopWatch.Start();
 
             BanxicoService.DgieWSPortClient banxico = new BanxicoService.DgieWSPortClient();
-            string[] data = new string[2];
+            CurrencyService _currency = new CurrencyService();
 
             var result = banxico.tiposDeCambioBanxico();
             XmlDocument document = new XmlDocument();
@@ -49,12 +50,12 @@ namespace App.BLL
            
             foreach (XmlElement node in nodes)
             {
-                data[0] = node.GetAttribute("OBS_VALUE");
-                data[1] = node.GetAttribute("TIME_PERIOD");
+                _currency.Value = Convert.ToSingle( node.GetAttribute("OBS_VALUE"));
+                _currency.Date = node.GetAttribute("TIME_PERIOD");
             }
             _stopWatch.Stop();
             TimeSpan timeSpan = _stopWatch.Elapsed;
-            return data;
+            return _currency;
         }                
         #endregion
     }
