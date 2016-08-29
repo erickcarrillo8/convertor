@@ -15,7 +15,16 @@ namespace App.BLL
         /// StopWatch declaration
         /// </summary>
         Stopwatch _stopWatch;
+        /// <summary>
+        /// Banxico Service declaration
+        /// </summary>
+        BanxicoService.DgieWSPortClient _banxico;
+        /// <summary>
+        /// Currency Service object declaration
+        /// </summary>
+        CurrencyService _currency;
         #endregion
+
 
         #region Constructor
         /// <summary>
@@ -23,7 +32,9 @@ namespace App.BLL
         /// </summary>
         public CurrencyBusiness()
         {
-             _stopWatch = new Stopwatch();
+            _stopWatch = new Stopwatch();
+            _banxico = new BanxicoService.DgieWSPortClient();
+            _currency = new CurrencyService();
         }
         #endregion
 
@@ -35,23 +46,18 @@ namespace App.BLL
         public  CurrencyService getCurrency()
         {
             _stopWatch.Start();
-
-            BanxicoService.DgieWSPortClient banxico = new BanxicoService.DgieWSPortClient();
-            CurrencyService _currency = new CurrencyService();
-
-            var result = banxico.tiposDeCambioBanxico();
+            string idSerie , idSerieDolar = "SF60653";
+            var result = _banxico.tiposDeCambioBanxico();
             XmlDocument document = new XmlDocument();
             document.LoadXml(result);
-
-            XmlNodeList dataSet = document.GetElementsByTagName("bm:DataSet");
-
-            XmlNodeList list = ((XmlElement)dataSet[0]).GetElementsByTagName("bm:Series");
-            XmlNodeList nodes = ((XmlElement)list[0]).GetElementsByTagName("bm:Obs");
-           
-            foreach (XmlElement node in nodes)
-            {
-                _currency.Value = Convert.ToSingle( node.GetAttribute("OBS_VALUE"));
-                _currency.Date = node.GetAttribute("TIME_PERIOD");
+            XmlNodeList list = document.GetElementsByTagName("bm:Series");
+            foreach (XmlElement node in list){
+                idSerie = node.Attributes["IDSERIE"].Value;
+                if (String.Equals(idSerie, idSerieDolar)){
+                    XmlNode currency = node.FirstChild;
+                    _currency.Value = Convert.ToSingle(currency.Attributes["OBS_VALUE"].Value);
+                    _currency.Date = currency.Attributes["TIME_PERIOD"].Value;
+                }
             }
             _stopWatch.Stop();
             TimeSpan timeSpan = _stopWatch.Elapsed;
